@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, Response
+import time
 
 app = Flask(__name__)
 
@@ -9,12 +10,22 @@ def index():
 @app.route('/api/chat', methods=['POST'])
 def chat():
     user_message = request.json.get("message", "")
-    if user_message:
-        # Simulate bot response
-        response = {"bot_message": "This is a response from the bot."}
-    else:
-        response = {"bot_message": "I didn't catch that. Could you please repeat?"}
-    return jsonify(response)
+    
+    def generate_response():
+        if user_message:
+            # Simulate sending multiple responses, one character at a time
+            responses = "This is a response from the bot. Processing more data... Here’s some additional information... Final response complete."
+            
+            for char in responses:
+                yield f"{char}\n\n"
+                time.sleep(0.01)  # Adding a small delay to simulate typing effect
+        else:
+            fallback_message = "I didn't catch that. Could you please repeat?"
+            for char in fallback_message:
+                yield f"data: {char}\n\n"
+                time.sleep(0.01)  # Simulate typing effect for fallback message
+
+    return Response(generate_response(), mimetype='text/event-stream')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
