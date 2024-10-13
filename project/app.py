@@ -13,8 +13,7 @@ def chat():
     
     def generate_response():
         if user_message:
-            # Simulate sending multiple responses, one character at a time
-            responses = "This is a response from the bot. Processing more data... Here’s some additional information... Final response complete."
+            responses = "This is a response from the bot. Processing more data... Here's some additional information... Final response complete."
             
             for char in responses:
                 yield f"{char}"
