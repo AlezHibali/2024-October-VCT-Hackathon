@@ -1,3 +1,43 @@
+"""
+Download game data from amazon g3 database
+create folder under current dir
+
+database file structure:
+
+/vct-hackathon-2024 (root)
+→ /fandom
+  → *.xml
+→ /game-changers
+  → /esports-data
+    → *.json.gz
+  → /games
+    → /2022
+      → *.json.gz
+    → /2023
+      → *.json.gz
+    → /2024
+      → *.json.gz
+→ /vct-challengers
+  → /esports-data
+    → *.json.gz
+  → /games
+    → /2023
+      → *.json.gz
+    → /2024
+      → *.json.gz
+→ /vct-international
+  → /esports-data
+    → *.json.gz
+  → /games
+    → /2022
+      → *.json.gz
+    → /2023
+      → *.json.gz
+    → /2024
+      → *.json.gz
+
+"""
+
 import requests
 import json
 import gzip
