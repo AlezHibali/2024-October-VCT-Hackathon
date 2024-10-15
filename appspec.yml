@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/2024-vct-hack/
+    destination: /home/ec2-user/2024-October-VCT-Hackathon/
 hooks:
   BeforeInstall:
     - location: scripts/set_permissions.sh
