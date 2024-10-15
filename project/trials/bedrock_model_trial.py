@@ -13,7 +13,7 @@ bedrock_client = boto3.client('bedrock',region_name="us-east-1", aws_access_key_
 
 # Call GetFoundationModel API to check model properties
 response = bedrock_client.get_foundation_model(
-    modelIdentifier='anthropic.claude-3-5-sonnet-20240620-v1:0'
+    modelIdentifier='meta.llama3-2-11b-instruct-v1:0'
 )
 
 print(response)

@@ -26,5 +26,7 @@ def chat():
 
     return Response(generate_response(), mimetype='text/event-stream')
 
+
+# python -m flask --app project/app run
 if __name__ == '__main__':
     app.run(debug=True, threaded=True)
