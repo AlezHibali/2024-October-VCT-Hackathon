@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, Response
 import time
+import waitress
 
 app = Flask(__name__)
 
@@ -27,6 +28,6 @@ def chat():
     return Response(generate_response(), mimetype='text/event-stream')
 
 
-# python -m flask --app project/app run
-if __name__ == '__main__':
-    app.run(debug=True, threaded=True)
+# python -m waitress --host=0.0.0.0 --port=5001 project.app:app
+if __name__ == "__main__":
+    waitress.serve(app, host="0.0.0.0", port=5001)
