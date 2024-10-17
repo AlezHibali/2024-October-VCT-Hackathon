@@ -71,7 +71,7 @@ Follow these steps to set up the project on your local machine:
    python -m waitress --host=0.0.0.0 --port=5001 project.app:app
    ```
 
-7. Access the application by opening `http://127.0.0.1:5000/` in your browser.
+7. Access the application by opening `http://127.0.0.1:5001/` in your browser.
 
 ## Usage
 
