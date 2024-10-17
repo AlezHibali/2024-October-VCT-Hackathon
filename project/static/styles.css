@@ -1,90 +1,168 @@
 /* Basic Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f9;
+  color: #333;
 }
 
-/* Navigation Bar */
-nav {
-    width: 100%;
-    background-color: #007acc;
-    color: #fff;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Container for 12-column Layout */
+.container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+  padding: 20px;
+  height: 100vh;
 }
 
-nav a {
-    color: #fff;
-    margin: 0 10px;
-    text-decoration: none;
+/* Sidebar (Columns 1-2) */
+.sidebar {
+  grid-column: span 2;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Chat Container */
+.sidebar h1 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.new-conversation {
+  width: 100%;
+  padding: 10px;
+  background-color: #007acc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chat-histories {
+  list-style: none;
+  margin-top: 20px;
+}
+
+.chat-histories li {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #eeeeee;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chat-histories li:hover {
+  background-color: #dddddd;
+}
+
+/* Blank Gap (Columns 3-4, 11-12) */
+.gap {
+  grid-column: span 2;
+}
+
+/* Chat Container (Columns 5-9) */
 .chat-container {
-    width: 100%;
-    max-width: 600px;
-    margin-top: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+  grid-column: span 5;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
-/* Chat Box */
 .chat-box {
-    height: 400px;
-    overflow-y: auto;
-    padding: 1rem;
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
 }
 
-.message {
-    padding: 0.5rem 1rem;
-    margin: 0.5rem 0;
-    border-radius: 10px;
-    width: fit-content;
-    max-width: 80%;
-}
-
-.user-message {
-    background-color: #007acc;
-    color: #fff;
-    align-self: flex-end;
-}
-
-.bot-message {
-    background-color: #e6e6e6;
-    align-self: flex-start;
-}
-
-/* Input Box */
 .chat-input-container {
-    display: flex;
-    border-top: 1px solid #ddd;
+  display: flex;
+  border-top: 1px solid #ddd;
 }
 
 input[type="text"] {
-    flex: 1;
-    padding: 1rem;
-    border: none;
-    outline: none;
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  outline: none;
 }
 
 button {
-    background-color: #007acc;
-    color: #fff;
-    border: none;
-    padding: 0 1rem;
-    cursor: pointer;
+  background-color: #007acc;
+  color: #fff;
+  border: none;
+  padding: 0 1rem;
+  cursor: pointer;
 }
+
+/* Expandable Player Cards Grid (Column 10) */
+.player-cards {
+  grid-column: span 1;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-rows: repeat(5, auto);
+  gap: 10px;
+}
+
+.card {
+  background-color: #e6e6e6;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.player-cards.expanded {
+    grid-column: span 12;
+}
+/* Existing Styles for Messages */
+.message {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  /* User Message Styles */
+  .user-message {
+    background-color: #007acc;
+    color: #ffffff;
+    border-radius: 15px;
+    padding: 10px 15px;
+    max-width: 60%;
+    margin-left: auto; /* Align to the right */
+    text-align: right;
+  }
+  
+  /* Bot Message Styles */
+  .bot-message {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    /* Align to the left */
+  }
+  
+  /* **New Styles for Bot Avatar** */
+  .bot-message .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #dddddd; /* Placeholder color for avatar */
+    margin-right: 10px; /* Space between avatar and text */
+  }
+  
+  /* Existing Bot Message Content Styles */
+  .bot-message .content {
+    background-color: #e6e6e6;
+    border-radius: 15px;
+    padding: 10px 15px;
+  }
+  

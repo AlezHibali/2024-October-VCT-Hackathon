@@ -7,29 +7,50 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav>
-    <div class="nav-left">
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="sidebar">
       <h1>ChatBot</h1>
+      <button class="new-conversation">+ New Conversation</button>
+      <ul class="chat-histories">
+        <li>Conversation 1</li>
+        <li>Conversation 2</li>
+        <li>Conversation 3</li>
+      </ul>
     </div>
-    <div class="nav-right">
-      <a href="#">Home</a>
-      <a href="#">Docs</a>
-      <a href="#">API</a>
-      <a href="#">Login</a>
-    </div>
-  </nav>
 
-  <!-- Chat Container -->
-  <div class="chat-container">
-    <div id="chat-box" class="chat-box">
-      <!-- Messages will be appended here -->
+    <!-- Blank Gaps for Columns 3-4 with Heading-->
+    <div class="gap">
+      <h2 class="chat-heading">Chat Topic</h2>
     </div>
-    <!-- Input Box -->
-    <div class="chat-input-container">
-      <input type="text" id="user-input" placeholder="Type your message..." />
-      <button id="send-btn">Send</button>
+
+    <!-- Chat Container for Columns 5-9 -->
+    <div class="chat-container">
+      <div id="chat-box" class="chat-box">
+        <!-- Messages will be appended here -->
+      </div>
+      <!-- Input Box -->
+      <div class="chat-input-container">
+        <input type="text" id="user-input" placeholder="Type your message..." />
+        <button id="send-btn">
+          <img src="{{ url_for('static', filename='icons/send-icon.png') }}" alt="send">
+        </button>
+      </div>
     </div>
+
+    <!-- Expandable Grid for Player Cards (Column 10) -->
+    <div class="player-cards">
+      <button class="expand-btn">⤢</button> <!-- Expand Icon -->
+      <div class="card">Player Card 1</div>
+      <div class="card">Player Card 2</div>
+      <div class="card">Player Card 3</div>
+      <div class="card">Player Card 4</div>
+      <div class="card">Player Card 5</div>
+    </div>
+
+    <!-- Blank Gaps for Columns 11-12 -->
+    <div class="gap"></div>
   </div>
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
