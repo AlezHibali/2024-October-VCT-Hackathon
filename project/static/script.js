@@ -20,11 +20,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Evaluate team button
   evalTeamBtn.addEventListener("click", () => {
-    const player1 = document.getElementById('player1').value || "Player 1";
-    const player2 = document.getElementById('player2').value || "Player 2";
-    const player3 = document.getElementById('player3').value || "Player 3";
-    const player4 = document.getElementById('player4').value || "Player 4";
-    const player5 = document.getElementById('player5').value || "Player 5";
+    const player1 = document.getElementById('player1').value || null;
+    const player2 = document.getElementById('player2').value || null;
+    const player3 = document.getElementById('player3').value || null;
+    const player4 = document.getElementById('player4').value || null;
+    const player5 = document.getElementById('player5').value || null;
 
     // Send the message with the player list
     const playerList = [player1, player2, player3, player4, player5];
@@ -78,13 +78,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         console.log("Stream ended");
 
+        // Set Player names in the input fields based on response
+        const playerNames = resultData.match(/<(.*?)>/g);
+        if (playerNames) {
+          playerNames.forEach((name, i) => {
+            document.getElementById(`player${i + 1}`).value = name.replace(/<|>/g, '').trim();
+          });
+        }
+
       } catch (error) {
         appendMessage("bot", "Error: Could not connect to server.");
       }
     }
   }
-
-    
 
   function appendMessage(sender, text) {
     const messageElem = document.createElement("div");
