@@ -18,6 +18,13 @@
         <li>Conversation 2</li>
         <li>Conversation 3</li>
       </ul>
+      <div class="fun-fact-box">
+        <h2>Fun Fact</h2>
+        <p id="fun-fact-display">Click the icon below for a fun fact!</p>
+        <button id="refresh-fun-fact" style="background: none; border: none; cursor: pointer;">
+          <img src="{{ url_for('static', filename='icons/refresh-icon.svg') }}" alt="Refresh Fun Fact" width="24" height="24">
+        </button>
+      </div>
     </div>
 
     <!-- Blank Gaps for Columns 3-4 with Heading-->

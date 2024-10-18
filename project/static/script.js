@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const playerCards = document.querySelector(".player-cards");
   const expandBtn = document.querySelector(".expand-btn"); 
   const evalTeamBtn = document.querySelector(".eval-team-btn"); 
+  const refreshFunFactBtn = document.getElementById("refresh-fun-fact");
+  const funFactDisplay = document.getElementById("fun-fact-display");
 
   sendBtn.addEventListener("click", () => {
     const message = userInput.value.trim();
@@ -126,4 +128,16 @@ document.addEventListener("DOMContentLoaded", () => {
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   }
+
+  // Refresh fun fact button
+  refreshFunFactBtn.addEventListener("click", async () => {
+    try {
+      const response = await fetch("/api/funfact");
+      const data = await response.json();
+      funFactDisplay.textContent = data.fun_fact; // Update the fun fact display
+    } catch (error) {
+      funFactDisplay.textContent = "Error: Could not load a fun fact.";
+    }
+  });
+
 });
