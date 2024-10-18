@@ -6,7 +6,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const expandBtn = document.querySelector(".expand-btn"); 
   const evalTeamBtn = document.querySelector(".eval-team-btn"); 
 
-  sendBtn.addEventListener("click", sendMessage);
+  sendBtn.addEventListener("click", () => {
+    const message = userInput.value.trim();
+    sendMessage(message);
+  });
+
   userInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
       sendMessage();
