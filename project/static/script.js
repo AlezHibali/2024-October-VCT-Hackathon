@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const userInput = document.getElementById("user-input");
   const sendBtn = document.getElementById("send-btn");
   const playerCards = document.querySelector(".player-cards");
-  const expandBtn = document.querySelector(".expand-btn"); // **New Code: Select the expand button**
+  const expandBtn = document.querySelector(".expand-btn"); 
+  const evalTeamBtn = document.querySelector(".eval-team-btn"); 
 
   sendBtn.addEventListener("click", sendMessage);
   userInput.addEventListener("keypress", (e) => {
@@ -12,16 +13,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // **New Code: Add event listener for expand functionality**
+  // Add event listener for expand functionality
   expandBtn.addEventListener("click", () => {
     playerCards.classList.toggle("expanded"); // Toggle the expanded class
   });
 
-  async function sendMessage() {
-    const message = userInput.value.trim();
+  // Evaluate team button
+  evalTeamBtn.addEventListener("click", () => {
+    const player1 = document.getElementById('player1').value || "Player 1";
+    const player2 = document.getElementById('player2').value || "Player 2";
+    const player3 = document.getElementById('player3').value || "Player 3";
+    const player4 = document.getElementById('player4').value || "Player 4";
+    const player5 = document.getElementById('player5').value || "Player 5";
+
+    // Send the message with the player list
+    const playerList = [player1, player2, player3, player4, player5];
+    sendMessage(null, playerList);
+  });
+
+  async function sendMessage(message = null, playerList = null) {
+    // If no message is passed, use the user input
+    if (!message) {
+      message = userInput.value.trim();
+    }
+
+    // Check if a player list is provided
+    if (playerList) {
+      message = `I build a team of ${playerList.join(', ')}. Help me evaluate and give suggestions if needed.`;
+    }
+
     if (message) {
       appendMessage("user", message);
-      userInput.value = "";
+      userInput.value = ""; // Clear user input field if it's a user message
 
       try {
         const response = await fetch("/api/chat", {
@@ -29,7 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ message }),
+          body: JSON.stringify({ 
+            message,
+            players: playerList ? playerList : [] // Sending the player list data if available
+          }),
         });
 
         if (!response.body) {
@@ -47,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const { done: readerDone, value } = await reader.read();
           done = readerDone;
           resultData += decoder.decode(value, { stream: !done });
-          updateLastBotMessage(resultData);
+          updateLastBotMessage(resultData);  // Continuously update the bot's message as it streams in
         }
 
         console.log("Stream ended");
@@ -57,6 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   }
+
+    
 
   function appendMessage(sender, text) {
     const messageElem = document.createElement("div");
