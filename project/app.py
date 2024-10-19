@@ -3,8 +3,18 @@ import time
 import waitress
 import re
 import random
+import boto3
+import os
 
 CURRENT_FUN_FACT_INDEX = 0
+
+# Set the AWS credentials in the environment variables
+aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
+aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
+
+# Initialize the Bedrock client
+bedrock_client = boto3.client("bedrock-agent-runtime",region_name="us-east-1", aws_access_key_id=aws_access_key_id, 
+      aws_secret_access_key=aws_secret_access_key)
 
 
 app = Flask(__name__)
@@ -19,21 +29,40 @@ def chat():
     
     def generate_response():
         if user_message:
-            # EXAMPLE
-            response = "Team formation: <Alez 1>, <Alez 2>, <Alez 3>, <Alez 4>, <Alez 5>. \nThis is a response from the bot. Processing more data... Here's some additional information... Final response complete."
+            # # EXAMPLE
+            # response = "Team formation: <Alez 1>, <Alez 2>, <Alez 3>, <Alez 4>, <Alez 5>. \nThis is a response from the bot. Processing more data... Here's some additional information... Final response complete."
+            # for char in response:
+            #     yield f"{char}"
+            #     time.sleep(0.01)  # Simulate typing effect
 
-            # Extract player names from the team message using regex
-            # player_names = re.findall(r'<(.*?)>', response)  # Find all names inside '<>'
-            # player_list = [name.strip() for name in player_names]  # Clean names
+            # Invoke the Bedrock agent
+            response = bedrock_client.invoke_agent(
+                agentId='KP6HZVL1HR',      # Identifier for Agent
+                agentAliasId='RXUHMKTWFJ', # Identifier for Agent Alias
+                sessionId='session123',    # Identifier used for the current session
+                inputText=user_message
+            )
 
-            for char in response:
+            output = ""
+            stream = response.get('completion')
+            if stream:
+                for event in stream:
+                    chunk = event.get('chunk')
+                    if chunk:
+                        output += chunk.get('bytes').decode()
+
+            # Replace newline characters with HTML <br> to preserve formatting
+            formatted_output = output.replace("\n", "<br>")
+
+            for char in formatted_output:
                 yield f"{char}"
                 time.sleep(0.01)  # Simulate typing effect
+
         else:
             fallback_message = "I didn't catch that. Could you please repeat?"
             for char in fallback_message:
                 yield f"{char}"
-                time.sleep(0.01)  # Simulate typing effect for fallback message
+                time.sleep(0.01)  # Simulate typing effect
 
     return Response(generate_response(), mimetype='text/event-stream')
 

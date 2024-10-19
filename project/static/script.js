@@ -93,7 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
       } catch (error) {
-        appendMessage("bot", "Error: Could not connect to server.");
+        console.error("Error details:", error); 
+        appendMessage("bot", `Error: ${error.message}`); 
       }
     }
   }
@@ -124,10 +125,11 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateLastBotMessage(text) {
     const lastBotMessage = chatBox.querySelector(".bot-message:last-child .content");
     if (lastBotMessage) {
-      lastBotMessage.textContent = text;
+      lastBotMessage.innerHTML = text;  // Use innerHTML to interpret <br> as line breaks
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   }
+  
 
   // Refresh fun fact button
   refreshFunFactBtn.addEventListener("click", async () => {
