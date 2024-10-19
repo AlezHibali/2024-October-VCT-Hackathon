@@ -85,7 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Stream ended");
 
         // Set Player names in the input fields based on response
-        const playerNames = resultData.match(/<(.*?)>/g);
+        // Remove any <br> tags to prevent them from being treated as player names
+        const textResult = resultData.replace(/<br\s*\/?>/g, '\n');
+        const playerNames = textResult.match(/<(.*?)>/g);
+        
         if (playerNames) {
           playerNames.forEach((name, i) => {
             document.getElementById(`player${i + 1}`).value = name.replace(/<|>/g, '').trim();
