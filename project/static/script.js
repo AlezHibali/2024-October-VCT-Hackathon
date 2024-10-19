@@ -93,8 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
       } catch (error) {
-        console.error("Error details:", error); 
-        appendMessage("bot", `Error: ${error.message}`); 
+        console.error("Error details:", error);
+        appendMessage("bot", `Error: ${error.message}`);
       }
     }
   }
