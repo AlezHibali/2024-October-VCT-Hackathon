@@ -3,3 +3,5 @@ set_credentials.ps1
 
 # pycache
 __pycache__/
+
+*.csv
