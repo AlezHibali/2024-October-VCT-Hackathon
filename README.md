@@ -64,14 +64,15 @@ Follow these steps to set up the project on your local machine:
    ```bash
    pip install -r requirements.txt
    ```
+6. Set the environmental variables for `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
 
-6. Run the application locally:
+7. Run the application locally:
 
    ```bash
    python -m waitress --host=0.0.0.0 --port=5001 project.app:app
    ```
 
-7. Access the application by opening `http://127.0.0.1:5001/` in your browser.
+8. Access the application by opening `http://127.0.0.1:5001/` in your browser.
 
 ## Usage
 
