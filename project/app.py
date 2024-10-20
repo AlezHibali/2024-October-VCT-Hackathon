@@ -38,8 +38,8 @@ def chat():
             # Invoke the Bedrock agent
             response = bedrock_client.invoke_agent(
                 agentId='KP6HZVL1HR',      # Identifier for Agent
-                agentAliasId='RXUHMKTWFJ', # Identifier for Agent Alias
-                sessionId='session123',    # Identifier used for the current session
+                agentAliasId='BMSKKW5PF7', # Identifier for Agent Alias
+                sessionId='vct-agent-session',    # Identifier used for the current session
                 inputText=user_message
             )
 
@@ -71,10 +71,17 @@ def chat():
 def fun_fact():
     # HARDCODED FUN FACTS
     fun_facts = [
-        "Fun Fact 1: Honey never spoils.",
-        "Fun Fact 2: Bananas are berries, but strawberries aren't.",
-        "Fun Fact 3: Octopuses have three hearts.",
+        "EDward Gaming (EDG) became the first global champions from China in 2024 after defeating Team Heretics 3-2 in an epic grand final.",
+        "EDG's player ZmjjKK set a new VCT best-of-five kill record with 111 kills and was named the first-ever official Champions MVP in 2024.",
+        "The 2025 VCT season will introduce a revamped format, starting with a 12-team double-elimination bracket for each region, eliminating the group and play-in stages from 2024.",
+        "Riot Games announced that the 2025 VCT Masters events will be held in Bangkok and Toronto, with the Champions event in Paris.",
+        "The 2026 VCT Champions will take place in China, and the 2027 event will be hosted in the Americas.",
+        "VCT features regional Challengers events that feed into international Masters and Champions tournaments.",
+        "The inaugural VCT Champions event in 2022 was won by OpTic Gaming in Los Angeles.",
+        "VCT matches are played on the latest map pool, which Riot Games updates regularly to keep the competitive meta fresh.",
+        "Players and teams earn Circuit Points in VCT events, which determine their qualification for Masters and Champions tournaments."
     ]
+
     # Select a random fun fact diff from last one
     global CURRENT_FUN_FACT_INDEX
     new_index = CURRENT_FUN_FACT_INDEX

@@ -11,6 +11,7 @@ def merge_data(base_file, match_file):
     base_file.loc[:, 'Region'] = "N/A"
     base_file.loc[:, 'League'] = "N/A"
     base_file.loc[:, 'League_level'] = "N/A"
+    base_file.loc[:, 'Updated At'] = "N/A"
     
     # Create a dictionary from player_info for fast lookup by Handle (Player ID)
     player_info_dict = match_file.set_index('Handle').T.to_dict()
@@ -23,7 +24,7 @@ def merge_data(base_file, match_file):
 
     # Iterate over base_file rows to fill in new data
     for i, row in base_file.iterrows():
-        # print(f"Processing row {i+1}/{len(base_file)}", end="\r")
+        print(f"Processing row {i+1}/{len(base_file)}", end="\r")
         player_id = row['Player ID']
         real_name = row['Real Name']
         
@@ -44,6 +45,7 @@ def merge_data(base_file, match_file):
             base_file.loc[i, 'Region'] = match.get('Region', "NA")
             base_file.loc[i, 'League'] = match.get('League', "N/A")
             base_file.loc[i, 'League_level'] = match.get('League_level', "N/A")
+            base_file.loc[i, 'Updated At'] = match.get('Updated At', "N/A")
         else:
             unmatched_base += 1  # Increment unmatched count for base_file
             unmatched_base_players.append(row['Player ID'])  # Add unmatched player ID to list
@@ -78,19 +80,19 @@ def merge_data(base_file, match_file):
     print(f"Players in match_file not found in base_file: {unmatched_match}")
 
     # Print all unmatched players from both files
-    print("\nUnmatched players in base_file:")
-    for player_id in unmatched_base_players:
-        try:
-            print(player_id)
-        except Exception as e:
-            print("PRINT ERROR")
+    # print("\nUnmatched players in base_file:")
+    # for player_id in unmatched_base_players:
+    #     try:
+    #         print(player_id)
+    #     except Exception as e:
+    #         print("PRINT ERROR")
 
-    print("\nUnmatched players in match_file:")
-    for player_id in unmatched_match_players:
-        try:
-            print(player_id)
-        except Exception as e:
-            print("PRINT ERROR")
+    # print("\nUnmatched players in match_file:")
+    # for player_id in unmatched_match_players:
+    #     try:
+    #         print(player_id)
+    #     except Exception as e:
+    #         print("PRINT ERROR")
 
     return base_file
 
