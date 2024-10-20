@@ -77,8 +77,9 @@ Follow these steps to set up the project on your local machine:
 
 Once the application is running, you can:
 - Search for team info.
-- View ongoing and upcoming matches.
 - Check out player stats and details.
+- Build team of five players based on users' requirement.
+- Evaluate a self-defined team of five players from different aspects.
 
 ## Contributing
 
