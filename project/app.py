@@ -29,32 +29,31 @@ def chat():
     
     def generate_response():
         if user_message:
-            # # EXAMPLE
-            # response = "Team formation: <Alez 1>, <Alez 2>, <Alez 3>, <Alez 4>, <Alez 5>. \nThis is a response from the bot. Processing more data... Here's some additional information... Final response complete."
-            # for char in response:
-            #     yield f"{char}"
-            #     time.sleep(0.01)  # Simulate typing effect
+            # EXAMPLE
+            file_path = "assets/text/dummy_markdown_response.txt"
+            with open(file_path, 'r') as file:
+                output = file.read()
 
             # Invoke the Bedrock agent
-            response = bedrock_client.invoke_agent(
-                agentId='KP6HZVL1HR',      # Identifier for Agent
-                agentAliasId='BMSKKW5PF7', # Identifier for Agent Alias
-                sessionId='vct-agent-session',    # Identifier used for the current session
-                inputText=user_message
-            )
+            # response = bedrock_client.invoke_agent(
+            #     agentId='KP6HZVL1HR',      # Identifier for Agent
+            #     agentAliasId='BMSKKW5PF7', # Identifier for Agent Alias
+            #     sessionId='vct-agent-session',    # Identifier used for the current session
+            #     inputText=user_message
+            # )
 
-            output = ""
-            stream = response.get('completion')
-            if stream:
-                for event in stream:
-                    chunk = event.get('chunk')
-                    if chunk:
-                        output += chunk.get('bytes').decode()
+            # output = ""
+            # stream = response.get('completion')
+            # if stream:
+            #     for event in stream:
+            #         chunk = event.get('chunk')
+            #         if chunk:
+            #             output += chunk.get('bytes').decode()
 
             # Replace newline characters with HTML <br> to preserve formatting
-            formatted_output = output.replace("\n", "<br>")
+            # output = output.replace("\n", "<br>")
 
-            for char in formatted_output:
+            for char in output:
                 yield f"{char}"
                 time.sleep(0.01)  # Simulate typing effect
 

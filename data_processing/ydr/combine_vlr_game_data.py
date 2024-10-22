@@ -3,8 +3,11 @@ import ast
 import re
 
 # Read the CSV file
-file_path = 'D:\\Coding\\VCT_agent\\data_processing\\player_profiles_region.csv'
+file_path = './player_profiles_wcn.csv'
 player_data = pd.read_csv(file_path)
+
+# List to keep track of skipped player IDs
+skipped_player_ids = []
 
 # Function to normalize the All Time Agent Stats
 def normalize_agent_stats(row):
@@ -12,6 +15,7 @@ def normalize_agent_stats(row):
 
     # Check if the agent stats are empty or contain the placeholder
     if pd.isna(agent_stats) or agent_stats == "[{'record': 'record not found'}]":
+        skipped_player_ids.append(row['Player ID'])  # Add skipped player ID to the list
         return None  # Skip this row
     
     agents = ast.literal_eval(agent_stats)
@@ -58,16 +62,24 @@ desired_columns = [
     'ACS', 'K/D', 'ADR', 'KAST %', 'KPR', 'APR', 
     'FKPR', 'FDPR', 'Kills', 'Deaths', 'Assists', 
     'First Bloods', 'First Deaths',
-    'Event Placements', '60 days Agent Stats'
+    'Event Placements', '60 days Agent Stats', 'Current Character'
 ]
 
 # Reindex the DataFrame according to the desired column order
 expanded_player_data = expanded_player_data[desired_columns]
 
 # Save the expanded DataFrame to a new CSV file
-expanded_file_path = 'D:\\Coding\\VCT_agent\\data_processing\\expanded_player_profiles.csv'
+expanded_file_path = 'expanded_player_data_wcn.csv'
 expanded_player_data.to_csv(expanded_file_path, index=False)
 
 # Display the first few rows of the expanded dataset
 print(expanded_player_data.head())
 print(f"Data saved to {expanded_file_path}")
+
+# Print all skipped player IDs
+if skipped_player_ids:
+    print("Skipped Player IDs due to missing or placeholder 'All Time Agent Stats':")
+    for player_id in skipped_player_ids:
+        print(player_id)
+else:
+    print("No players were skipped.")

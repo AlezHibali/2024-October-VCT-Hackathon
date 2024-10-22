@@ -1,8 +1,26 @@
 import pandas as pd
+import re
 
 # Load the CSV files
-base_file = pd.read_csv('expanded_player_profiles.csv')
+base_file = pd.read_csv('expanded_player_data_wcn.csv')
 match_file = pd.read_csv('players_info.csv')
+
+def extract_matches_and_percentage(use_str):
+    """
+    Extracts total matches and use percentage from a string like '(23) 28%'
+    """
+    if pd.isna(use_str) or use_str == "":
+        return None, None  # Return None for both columns if the string is empty or NaN
+    
+    # Use regex to capture the matches in parentheses and the percentage
+    match = re.search(r'\((\d+)\)\s*(\d+)%', use_str)
+    
+    if match:
+        total_matches = int(match.group(1))  # First captured group is total matches
+        use_percentage = f"{match.group(2)}%"  # Second captured group is the percentage
+        return total_matches, use_percentage
+    else:
+        return None, None  # Return None if the format doesn't match
 
 def merge_data(base_file, match_file):
     # Initialize new columns for the data to be added with "N/A"
@@ -12,6 +30,17 @@ def merge_data(base_file, match_file):
     base_file.loc[:, 'League'] = "N/A"
     base_file.loc[:, 'League_level'] = "N/A"
     base_file.loc[:, 'Updated At'] = "N/A"
+
+    # Strip whitespace
+    match_file['Handle'] = match_file['Handle'].astype(str).str.strip()
+    match_file['Player Name'] = match_file['Player Name'].astype(str).str.strip()
+
+    # Create two new columns for Total Matches and Use Percentage
+    base_file['Total Matches'], base_file['Use Percentage'] = zip(*base_file['Use %'].apply(extract_matches_and_percentage))
+    use_percent_index = base_file.columns.get_loc('Use %')  # Get index of new column
+    base_file.drop(columns=['Use %'], inplace=True)
+    base_file.insert(use_percent_index, 'Total Matches', base_file.pop('Total Matches'))
+    base_file.insert(use_percent_index + 1, 'Use Percentage', base_file.pop('Use Percentage'))
     
     # Create a dictionary from player_info for fast lookup by Handle (Player ID)
     player_info_dict = match_file.set_index('Handle').T.to_dict()
@@ -97,6 +126,6 @@ def merge_data(base_file, match_file):
     return base_file
 
 result_df = merge_data(base_file, match_file)
-result_df.to_csv('merged_player_profiles.csv', index=False)
+result_df.to_csv('merged_player_profiles_wcn.csv', index=False)
 
-print("Test CSV file created: merged_player_profiles.csv")
+print("Test CSV file created: merged_player_profiles_wcn.csv")

@@ -1,0 +1,71 @@
+# Professional Team Composition
+## *Team Members*: *`Pro, blue, Marti, heartless, bryce`*
+
+*<h3>Pro</h3>*
+
+- **Role**: Offensive; Agent: Duelist
+- **Contribution**: As one of the top Duelists, Pro excels at entry fragging and securing opening kills. His aggressive playstyle creates space for teammates.
+- **Performance Insights**: 2.27 Rating, indicating high impact frags and multi-kill rounds.
+
+*<h3>blue</h3>*
+
+- **Role**: Offensive; Agent: Duelist
+- **Contribution**: Another strong Duelist complementing Pro's entries. Blue's aim and mechanics make him a formidable fragger.
+- **Performance Insights**: 2.18 Rating, showing consistently high K/D ratios.
+
+*<h3>Marti</h3>*
+
+- **Role**: Defensive; Agent: Sentinel
+- **Contribution**: Marti anchors sites with utility and positioning. His role is to gather information and delay pushes.
+- **Performance Insights**: 2.08 Rating, suggesting strong utility usage and clutch abilities.
+
+*<h3>heartless</h3>*
+
+- **Role**: Defensive; Agent: Controller
+- **Contribution**: As a top Controller, heartless enables map control with smokes and abilities to take space.
+- **Performance Insights**: 1.69 Rating, indicating effective setups for post-plant situations.
+
+*<h3>bryce</h3>*
+    
+- **Role**: Offensive/Defensive; Agent: Initiator
+- **Contribution**: Bryce's role is to gather intel and create advantages with flashes/utility. As IGL, he leads strategy.
+- **Performance Insights**: 2.0 Rating, showcasing impact beyond fragging.
+
+## *In-Game Leader (IGL)* :  *`bryce`*
+
+- Experienced Initiator with strategic overview to make mid-round calls
+
+# Team Strategy
+
+*<h3>Agent Composition</h3>*
+
+- Agent Composition Explanation A
+- Agent Composition Explanation B
+- ...
+
+*<h3>Playing Style</h3>*
+
+- Team Coordination Explanation A
+- ...
+- ...
+
+*<h3>Consistency and Adaptability</h3>*
+
+- ...
+- ...
+
+
+<h3>(some other point you(model as the data analyst) can think of)</h3>
+
+- ...
+
+
+# Strength and Weakness
+*<h3>Strengths</h3>*
+- Aggressive entries: (reasoning!!!!)
+- strong site anchors: (reasoning)
+- good map control and post-plant setups: (resoning)
+
+*<h3>Weaknesses</h3>* 
+
+- Potential vulnerability to anti-stratting, limited flexibility if strategies are countered.  

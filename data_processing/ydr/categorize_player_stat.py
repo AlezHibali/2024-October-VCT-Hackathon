@@ -2,13 +2,13 @@ import pandas as pd
 import os
 
 # Load the merged CSV file
-merged_file_path = 'merged_player_profiles.csv'
+merged_file_path = 'merged_player_profiles_wcn.csv'
 merged_data = pd.read_csv(merged_file_path)
 
 # Define columns for each file type
-basic_data_columns = ['Player ID', 'Real Name', 'Current Team', 'Player Region', 'Team Acronym', 'Status', 'Region', 'League', 'League_level']
+basic_data_columns = ['Player ID', 'Real Name', 'Current Team', 'Player Region', 'Team Acronym', 'Status', 'Region', 'League', 'League_level', 'Current Character']
 others_columns = ['Player ID', 'Real Name', 'Recent Matches', 'Past Teams', 'Event Placements', '60 days Agent Stats', 'Updated At']
-all_time_agent_data_columns = ['Player ID', 'Real Name', 'Agent', 'Use %', 'Rounds Played', 'Rating', 'ACS', 'K/D', 'ADR', 'KAST %', 
+all_time_agent_data_columns = ['Player ID', 'Real Name', 'Agent', 'Total Matches', 'Use Percentage', 'Rounds Played', 'Rating', 'ACS', 'K/D', 'ADR', 'KAST %', 
                                 'KPR', 'APR', 'FKPR', 'FDPR', 'Kills', 'Deaths', 'Assists', 'First Bloods', 
                                 'First Deaths']
 

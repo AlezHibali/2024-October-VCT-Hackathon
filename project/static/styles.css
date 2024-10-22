@@ -1,168 +1,167 @@
-/* Basic Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* Custom styles for the chatbot UI */
 
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f6f9;
-  color: #333;
-}
-
-/* Container for 12-column Layout */
-.container {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 20px;
-  padding: 20px;
-  height: 100vh;
-}
-
-/* Sidebar (Columns 1-2) */
-.sidebar {
-  grid-column: span 2;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.sidebar h1 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-}
-
-.new-conversation {
-  width: 100%;
-  padding: 10px;
-  background-color: #007acc;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.chat-histories {
-  list-style: none;
-  margin-top: 20px;
-}
-
-.chat-histories li {
-  margin: 10px 0;
-  padding: 10px;
-  background-color: #eeeeee;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.chat-histories li:hover {
-  background-color: #dddddd;
-}
-
-/* Blank Gap (Columns 3-4, 11-12) */
-.gap {
-  grid-column: span 2;
-}
-
-/* Chat Container (Columns 5-9) */
+/* Chat Container */
 .chat-container {
-  grid-column: span 5;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: 80vh; /* Full viewport height for the chat area */
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  border-radius: 8px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  padding: 15px;
 }
 
 .chat-box {
   flex: 1;
-  padding: 20px;
-  overflow-y: auto;
+  overflow-y: auto; /* Allows scrolling if the chat content overflows */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Message Styling */
+.message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  word-wrap: break-word; /* Ensures text wraps if it's too long */
+}
+
+.message.user-message {
+  justify-content: flex-end;
+}
+
+.message.bot-message {
+  justify-content: flex-start;
+}
+
+/* Bot Avatar */
+.message.bot-message .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ddd;
+  margin-right: 10px; /* Spacing between avatar and text */
+  flex-shrink: 0; /* Ensure avatar does not shrink */
+}
+
+/* Message Content */
+.message .content {
+  padding: 10px 20px;
+  border-radius: 15px;
+  max-width: 70%; /* Ensure messages take up a max of 70% of the chat width */
+}
+
+/* User Message Content */
+.message.user-message .content {
+  background-color: #007bff;
+  color: white;
+  text-align: right;
+  border-radius: 15px 15px 15px 15px; /* Round only the top left corner */
+  max-width: 60%; /* Adjust width based on message length */
+  min-width: 30px;
+  word-wrap: break-word; /* Break long words if needed */
+  white-space: pre-line; /* Allow line breaks */
+}
+
+/* Bot Message Content */
+.message.bot-message .content {
+  background-color: #f1f1f1; /* Light gray background for bot message */
+  color: #333; /* Text color for bot message */
+  text-align: left;
+  border-radius: 15px 15px 15px 15px; /* Fully rounded corners */
+  max-width: 70%; /* Control the width of the message */
+  word-wrap: break-word; /* Ensure long words are wrapped */
+  white-space: pre-line; /* Preserve line breaks */
+  padding: 10px 20px;
+}
+
+
+/* Chat Input Container */
 .chat-input-container {
   display: flex;
+  align-items: center;
+  padding-top: 10px;
   border-top: 1px solid #ddd;
-}
-
-input[type="text"] {
-  flex: 1;
-  padding: 1rem;
-  border: none;
-  outline: none;
-}
-
-button {
-  background-color: #007acc;
-  color: #fff;
-  border: none;
-  padding: 0 1rem;
-  cursor: pointer;
-}
-
-/* Expandable Player Cards Grid (Column 10) */
-.player-cards {
-  grid-column: span 1;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  display: grid;
-  grid-template-rows: repeat(5, auto);
+  padding: 10px;
   gap: 10px;
 }
 
-.card {
-  background-color: #e6e6e6;
+.chat-input-container input {
+  flex: 1;
   padding: 10px;
-  border-radius: 5px;
-  text-align: center;
+  border-radius: 50px;
+  border: 1px solid #ddd;
 }
 
-.player-cards.expanded {
-    grid-column: span 12;
+/* Send Button */
+.chat-input-container button {
+  border-radius: 50%;
+  background-color: #007bff;
+  border: none;
+  padding: 10px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
-/* Existing Styles for Messages */
-.message {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-  }
-  
-  /* User Message Styles */
-  .user-message {
-    background-color: #007acc;
-    color: #ffffff;
-    border-radius: 15px;
-    padding: 10px 15px;
-    max-width: 60%;
-    margin-left: auto; /* Align to the right */
-    text-align: right;
-  }
-  
-  /* Bot Message Styles */
-  .bot-message {
-    display: flex;
-    align-items: center;
-    max-width: 100%;
-    /* Align to the left */
-  }
-  
-  /* **New Styles for Bot Avatar** */
-  .bot-message .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #dddddd; /* Placeholder color for avatar */
-    margin-right: 10px; /* Space between avatar and text */
-  }
-  
-  /* Existing Bot Message Content Styles */
-  .bot-message .content {
-    background-color: #e6e6e6;
-    border-radius: 15px;
-    padding: 10px 15px;
-  }
-  
+
+.chat-input-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Player Cards Container (in grid) */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  padding: 0px;
+  transition: all 0.3s ease;
+}
+
+/* Individual Player Card */
+.player-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.player-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Expanded State (Use Flexbox for Single Row Layout) */
+.player-cards.expanded .card-grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; /* Distribute cards evenly */
+  flex-wrap: nowrap; /* Prevent cards from wrapping to a new line */
+  padding: 10px;
+  gap: 20px; /* Add some space between the cards */
+  height: 60vh;
+}
+/* For Expanded State (Make the player cards occupy more space) */
+.player-cards.expanded .card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* Default (Collapsed) State - Hide Position and Stats */
+.player-position,
+.player-stat {
+  display: none;
+}
+
+/* Expanded State - Show Position and Stats */
+.player-cards.expanded .player-position,
+.player-cards.expanded .player-stat {
+  display: block; /* Show the position and stats when expanded */
+}
