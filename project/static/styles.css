@@ -1,14 +1,117 @@
 /* Custom styles for the chatbot UI */
+.container-fluid {
+  padding: 0; /* Remove container padding */
+}
 
+.chat-container {
+  min-width: 0; /* Ensure the chat container can shrink properly */
+  width: auto;
+}
+
+* {
+  box-sizing: border-box; 
+  font-family: 'Roboto', sans-serif;
+  color: #222222;
+  /* Ensure padding and borders don't affect element width */
+}
+
+/* Prevent any fixed-width elements from causing overflow */
+body {
+  overflow-x: hidden; /* Hide any horizontal overflow */
+}
+
+.sidebar-column {
+  position: fixed; /* Fixed position for the sidebar */
+  top: 0;
+  left: 0;
+  width: 16.67%; /* Matching Bootstrap col-md-2 width */
+  height: 100vh; /* Full viewport height */
+  background-color: #fffbf5;
+  z-index: 1;
+}
+
+
+.roboto-black {
+  font-family: "Roboto", serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+
+.sidebar {
+  padding: 20px;
+  height: 100%; /* Sidebar content takes full height */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 16.67%; /* Align with the end of the sidebar */
+  width: 83%; /* Remaining width of the screen */
+  z-index: 10;
+}
+
+.btn.btn-primary {
+  background-color: #4b4e6d;
+  border-color: #4b4e6d; /* Change border color */
+  color: white; /* Change text color */
+  font-weight: bold;
+}
+
+.btn.btn-primary:hover {
+  background-color: #65688C; 
+  border-color: #65688C;/* Change background color on hover */
+}
+
+ul {
+  margin-top: 0;
+  background-color: #fffbf5;
+}
+
+li.list-group-item {
+  background-color: #fffbf5;
+  border-color: #4b4e6d;
+}
+
+.fun-fact-box {
+  border-top: 1px solid #4b4e6d; /* You can adjust the color and thickness */
+  padding-top: 10px; /* Add some padding for spacing */
+}
+
+
+.roboto-bold {
+  font-family: "Roboto", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.content-container {
+  background-color: white;
+  height: 100vh;
+}
+
+.content-row {
+  margin-top: 60px; /* Add margin to make room for the navbar */
+}
 /* Chat Container */
 .chat-container {
-  height: 80vh; /* Full viewport height for the chat area */
+  height: 92vh; /* Full viewport height for the chat area */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border-radius: 8px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-  padding: 15px;
+  box-shadow: ;
+  padding: 10px;
+  
+}
+
+.col-md-5 {
+  background-color: ;
 }
 
 .chat-box {
@@ -66,11 +169,11 @@
 
 /* Bot Message Content */
 .message.bot-message .content {
-  background-color: #f1f1f1; /* Light gray background for bot message */
+  background-color:; /* Light gray background for bot message */
   color: #333; /* Text color for bot message */
   text-align: left;
   border-radius: 15px 15px 15px 15px; /* Fully rounded corners */
-  max-width: 70%; /* Control the width of the message */
+  max-width: 100%; /* Control the width of the message */
   word-wrap: break-word; /* Ensure long words are wrapped */
   white-space: pre-line; /* Preserve line breaks */
   padding: 10px 20px;
@@ -80,11 +183,13 @@
 /* Chat Input Container */
 .chat-input-container {
   display: flex;
+  width: 100%;
   align-items: center;
   padding-top: 10px;
-  border-top: 1px solid #ddd;
   padding: 10px;
   gap: 10px;
+  box-sizing: border-box;
+  position: relative;
 }
 
 .chat-input-container input {
@@ -92,12 +197,16 @@
   padding: 10px;
   border-radius: 50px;
   border: 1px solid #ddd;
+  background-color: #fffbf5;
+  padding-right: 50px;
 }
 
 /* Send Button */
-.chat-input-container button {
+.chat-input-container #send-btn {
+  position: absolute;
+  right: 20px; /* Place the button to the right inside the input */
+  background-color: #fd4556; /* Your button color */
   border-radius: 50%;
-  background-color: #007bff;
   border: none;
   padding: 10px;
   color: white;
@@ -107,8 +216,8 @@
   cursor: pointer;
 }
 
-.chat-input-container button:hover {
-  background-color: #0056b3;
+.chat-input-container #send-btn:hover {
+  background-color: #bd3944;
 }
 
 /* Player Cards Container (in grid) */
@@ -147,7 +256,7 @@
   flex-wrap: nowrap; /* Prevent cards from wrapping to a new line */
   padding: 10px;
   gap: 20px; /* Add some space between the cards */
-  height: 60vh;
+  height: 80vh;
 }
 /* For Expanded State (Make the player cards occupy more space) */
 .player-cards.expanded .card-grid {
@@ -155,13 +264,28 @@
 }
 
 /* Default (Collapsed) State - Hide Position and Stats */
-.player-position,
-.player-stat {
+.team-acronym, .region, .agents, .rating, .ACS, .ADR, .KAST {
   display: none;
 }
 
 /* Expanded State - Show Position and Stats */
-.player-cards.expanded .player-position,
-.player-cards.expanded .player-stat {
+.player-cards.expanded .team-acronym,
+.player-cards.expanded .region,
+.player-cards.expanded .agents,
+.player-cards.expanded .rating,
+.player-cards.expanded .ACS,
+.player-cards.expanded .ADR,
+.player-cards.expanded .KAST {
   display: block; /* Show the position and stats when expanded */
+}
+
+.col-md-1.player-cards button {
+  background-color: #007bff;
+}
+
+input.form-control:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: #cc00ff; /* Change border color to match the blue theme */
+  box-shadow: 0 0 5px rgba(247, 0, 255, 0.5); /* Add a blue glow shadow */
+  background-color: #f0f8ff; /* Optional: Change background color on focus */
 }

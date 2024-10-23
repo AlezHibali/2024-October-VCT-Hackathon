@@ -5,6 +5,8 @@ import re
 import random
 import boto3
 import os
+from project.utils import process_json, process_data
+import json
 
 CURRENT_FUN_FACT_INDEX = 0
 
@@ -15,6 +17,46 @@ aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
 # Initialize the Bedrock client
 bedrock_client = boto3.client("bedrock-agent-runtime",region_name="us-east-1", aws_access_key_id=aws_access_key_id, 
       aws_secret_access_key=aws_secret_access_key)
+lambda_client = boto3.client('lambda',region_name="us-east-1", aws_access_key_id=aws_access_key_id, 
+      aws_secret_access_key=aws_secret_access_key)
+
+
+def get_lambda_response(player_id):
+    # Set the Lambda function name and payload
+    function_name = 'VCT-Data-Query-nzfd5'
+    payload = {
+        "agent": "",
+        "actionGroup": "",
+        "messageVersion": "",
+        "function": "query_player",
+        "parameters": [{
+            "name": "player_id",
+            "type": "string",
+            "value": player_id
+            }]
+    }
+
+    try:
+        # Invoke the Lambda function
+        response = lambda_client.invoke(
+            FunctionName=function_name,
+            InvocationType='RequestResponse',  # 'RequestResponse' for synchronous, 'Event' for async
+            Payload=json.dumps(payload)
+        )
+
+        # Read the response
+        response_payload = json.load(response['Payload'])
+        data = response_payload['response']['functionResponse']['responseBody']['TEXT']['body']
+        
+        personal_info, agent_infos = process_json(data)
+        output = process_data(personal_info, agent_infos)
+
+        # print(output)
+        return output
+
+    except Exception as e:
+        print(f"Error invoking Lambda function: {e}")
+        return None
 
 
 app = Flask(__name__)
@@ -68,18 +110,11 @@ def chat():
 
 @app.route('/api/funfact', methods=['GET'])
 def fun_fact():
-    # HARDCODED FUN FACTS
-    fun_facts = [
-        "EDward Gaming (EDG) became the first global champions from China in 2024 after defeating Team Heretics 3-2 in an epic grand final.",
-        "EDG's player ZmjjKK set a new VCT best-of-five kill record with 111 kills and was named the first-ever official Champions MVP in 2024.",
-        "The 2025 VCT season will introduce a revamped format, starting with a 12-team double-elimination bracket for each region, eliminating the group and play-in stages from 2024.",
-        "Riot Games announced that the 2025 VCT Masters events will be held in Bangkok and Toronto, with the Champions event in Paris.",
-        "The 2026 VCT Champions will take place in China, and the 2027 event will be hosted in the Americas.",
-        "VCT features regional Challengers events that feed into international Masters and Champions tournaments.",
-        "The inaugural VCT Champions event in 2022 was won by OpTic Gaming in Los Angeles.",
-        "VCT matches are played on the latest map pool, which Riot Games updates regularly to keep the competitive meta fresh.",
-        "Players and teams earn Circuit Points in VCT events, which determine their qualification for Masters and Champions tournaments."
-    ]
+    with open('assets/text/fun_facts.txt', 'r') as file:
+        fun_facts = file.readlines()
+
+    # Remove newline characters from each fact
+    fun_facts = [fact.strip() for fact in fun_facts]
 
     # Select a random fun fact diff from last one
     global CURRENT_FUN_FACT_INDEX
@@ -91,6 +126,18 @@ def fun_fact():
 
     return {"fun_fact": fact}
 
+
+"""
+API endpoint to get player data by invoking a Lambda function.
+"""
+@app.route('/api/player/<string:player_id>', methods=['GET'])
+def player_data(player_id):
+    output = get_lambda_response(player_id)
+    if output is not None:
+        return {"player_stat": output}
+    else:
+        return {"error": "Unable to retrieve player data."}
+    
 
 # python -m waitress --host=0.0.0.0 --port=5001 project.app:app
 if __name__ == "__main__":

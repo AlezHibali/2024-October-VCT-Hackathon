@@ -10,9 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const refreshFunFactBtn = document.getElementById("refresh-fun-fact");
   const funFactDisplay = document.getElementById("fun-fact-display");
 
-  // Elements for adjusting the layout
-  const gap = document.querySelector(".gap-column"); // Select gap (columns 3-4)
-  const chatContainer = document.querySelector(".chat-container"); // Chat section container
+  const chatContainer = document.querySelector(".chat-container").parentElement; // Get parent for col-md class manipulation
+  const chatColumn = chatContainer; // To handle chat column manipulation
 
   // Add event listener for expand functionality
   expandBtn.addEventListener("click", () => {
@@ -21,13 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (playerCards.classList.contains("expanded")) {
       // If expanded, adjust the grid layout
       playerCards.classList.replace("col-md-1", "col-md-5");  // Expand player cards to 8-12
-      chatContainer.classList.replace("col-md-5", "col-md-4"); // Shift chat section to 3-7
-      gap.style.display = 'none'; // Hide the gap (columns 3-4)
+  
+      chatColumn.classList.replace("offset-md-4", "offset-md-2");  // Remove offset to attach chat to sidebar
     } else {
       // If collapsed, revert the grid layout
       playerCards.classList.replace("col-md-5", "col-md-1"); // Collapse player cards back to 1 column
-      chatContainer.classList.replace("col-md-4", "col-md-5"); // Shift chat section back to 5-9
-      gap.style.display = ''; // Restore the gap (columns 3-4)
+      chatColumn.classList.replace("offset-md-2", "offset-md-4");  
     }
   });
 
@@ -54,6 +52,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const playerList = [player1, player2, player3, player4, player5];
     sendMessage(null, playerList);
   });
+
+  async function fetchPlayerData(playerId) {
+      try {
+          const response = await fetch(`/api/player/${playerId}`); // Update this endpoint as necessary
+          if (!response.ok) throw new Error("Network response was not ok");
+          return await response.json(); // Assuming the response is JSON
+      } catch (error) {
+          console.error("Error fetching player data:", error);
+          return null; // Return null if there’s an error
+      }
+  }
 
   async function sendMessage(message = null, playerList = null) {
     if (!message) {
@@ -110,12 +119,36 @@ document.addEventListener("DOMContentLoaded", () => {
           playerNames.forEach((name, i) => {
             if (i < 5) {
               document.getElementById(`player${i + 1}`).value = name; // Set player name to the input
+  
+              fetchPlayerData(name).then(player_stat => {
+                player_stat = player_stat["player_stat"];
+                console.log(player_stat);
+                if (player_stat) {
+                  // Display player info in the corresponding fields
+                  document.querySelector(`#player${i + 1}-card .team-acronym`).textContent = `Team: ${player_stat['Team Acronym'] || 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .region`).textContent = `Region: ${player_stat.Region || 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .rating`).textContent = `Rating: ${player_stat['Average Rating'] || 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .ACS`).textContent = `ACS: ${player_stat['Average ACS'] || 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .ADR`).textContent = `ADR: ${player_stat['Average ADR'] || 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .KAST`).textContent = `KAST: ${player_stat['Average KAST'] || 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .agents`).textContent = `Most Played Agents: ${player_stat['Agent Names'] ? player_stat['Agent Names'].join(', ') : 'N/A'}`;
+                } else {
+                  console.log(`Player ${name} not found.`);
+                }
+              });
             }
           });
-
+  
           // Clear remaining fields if less than 5 players
           for (let j = playerNames.length; j < 5; j++) {
             document.getElementById(`player${j + 1}`).value = ""; // Clear remaining fields
+            document.querySelector(`#player${j + 1}-card .team-acronym`).textContent = `Team: `;
+            document.querySelector(`#player${j + 1}-card .region`).textContent = `Region: `;
+            document.querySelector(`#player${j + 1}-card .rating`).textContent = `Rating: `;
+            document.querySelector(`#player${j + 1}-card .ACS`).textContent = `ACS: `;
+            document.querySelector(`#player${j + 1}-card .ADR`).textContent = `ADR: `;
+            document.querySelector(`#player${j + 1}-card .KAST`).textContent = `KAST: `;
+            document.querySelector(`#player${j + 1}-card .agents`).textContent = `Most Played Agents: `;
           }
         }
 

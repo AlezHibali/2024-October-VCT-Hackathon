@@ -6,15 +6,19 @@
   <title>ValoPlanner</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Main Container -->
-  <div class="container-fluid mt-5">
-    <div class="row">
-      <!-- Sidebar (Columns 1-2) -->
-      <div class="col-md-2 sidebar-column">
-        <div class="sidebar">
-          <h1>ValoPlanner</h1>
+
+      <!-- Sidebar fixed, not inside the column grid system -->
+      <div class="sidebar-column">
+        <div class="sidebar text-center">
+          <div class="logo-placeholder mb-3">
+            <img src="{{ url_for('static', filename='icons/ValoPlanner.png') }}" alt="Logo" class="img-fluid" style="width: 100px; height: 100px; object-fit: cover;">
+          </div>
+          <h1 class="roboto-black"><span style="color:#fd4556">Valo</span>Planner</h1>
           <button class="btn btn-primary w-100 mb-3">+ New Conversation</button>
           <ul class="list-group">
             <li class="list-group-item">Conversation 1</li>
@@ -22,37 +26,56 @@
             <li class="list-group-item">Conversation 3</li>
           </ul>
           <div class="fun-fact-box mt-3">
-            <h2>Fun Fact</h2>
-            <p id="fun-fact-display">The 2026 VCT Champions will take place in China, and the 2027 event will be hosted in the Americas.</p>
-            <button id="refresh-fun-fact" style="background: none; border: none; cursor: pointer;">
+            <h2 class="roboto-bold">Fun Fact <button id="refresh-fun-fact" style="background: none; border: none; cursor: pointer;">
               <img src="{{ url_for('static', filename='icons/refresh-icon.svg') }}" alt="Refresh Fun Fact" width="24" height="24">
-            </button>
+            </button></h2>
+            
+            <p id="fun-fact-display">Click the icon to check out some fun facts about VCT!</p>
+            
           </div>
         </div>
       </div>
 
-      <!-- Gap (Columns 3-4) -->
-      <div class="col-md-2 gap-column">
-       <!--<h2 class="chat-heading">Chat Topic</h2>--> 
-      </div>
-
-      <!-- Chat Container (Columns 5-9) -->
-      <div class="col-md-5">
-        <div class="chat-container bg-white">
-          <div id="chat-box" class="chat-box">
-            <!-- Messages will be appended here -->
+        <!-- Navigation Bar (fixed) -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+          <div class="container-fluid">
+            <span class="navbar-brand">Chat Topic</span>
+            <div class="navbar-nav ms-auto">
+              <div class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  User Profile
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="#">Profile</a></li>
+                  <li><a class="dropdown-item" href="#">Settings</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Logout</a></li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <!-- Input Box -->
-          <div class="chat-input-container">
-            <input type="text" id="user-input" placeholder="Type your message..." class="form-control">
-            <button id="send-btn" class="btn btn-primary">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">
-                <path d="M15.854.146a.5.5 0 0 0-.671-.057l-.073.057L1.5 6.793a.5.5 0 0 0 .058.885l.07.024 5.858 1.952 1.951 5.858a.5.5 0 0 0 .888.058l.025-.07 6.646-13.61a.5.5 0 0 0-.05-.538zM6.477 7.075l-3.733-1.244 9.986-4.912-6.253 6.156zM10.316 10.12l-1.244-3.733 6.156-6.253-4.912 9.986z"/>
-              </svg>
-            </button>
+        </nav>
+      
+      <!-- Main Content Area -->
+      <div class="content-container">
+        <div class="row content-row">
+      <!-- Chat Container (Columns 5-9) -->  
+          <div class="col-md-5 offset-md-4">
+            <div class="chat-container">
+              <div id="chat-box" class="chat-box">
+                <!-- Messages will be appended here -->
+              </div>
+              <!-- Input Box -->
+              <div class="chat-input-container">
+                <input type="text" id="user-input" placeholder="Type your message..." class="form-control">
+                <button id="send-btn" class="btn btn-primary">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-send" viewBox="0 0 16 16">
+                    <path d="M15.854.146a.5.5 0 0 0-.671-.057l-.073.057L1.5 6.793a.5.5 0 0 0 .058.885l.07.024 5.858 1.952 1.951 5.858a.5.5 0 0 0 .888.058l.025-.07 6.646-13.61a.5.5 0 0 0-.05-.538zM6.477 7.075l-3.733-1.244 9.986-4.912-6.253 6.156zM10.316 10.12l-1.244-3.733 6.156-6.253-4.912 9.986z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
       <!-- Player Cards (Column 10) -->
       <div class="col-md-1 player-cards">
@@ -62,40 +85,65 @@
           <div class="player-card form-control mb-2" id="player1-card">
             <div class="player-card-grid">
               <div class="player-name"><input type="text" id="player1" placeholder="Player 1" class="form-control"></div>
-              <div class="player-position">Position: Forward</div>
-              <div class="player-stat">Goals: 10</div>
+              <div class="team-acronym">Team: </div>
+              <div class="region">Region: </div>
+              <div class="rating">Rating: </div>
+              <div class="ACS">ACS: </div>
+              <div class="ADR">ADR: </div>
+              <div class="KAST">KAST: </div>
+              <div class="agents">Most Played Agents: </div>
             </div>
           </div>
 
           <div class="player-card form-control mb-2" id="player2-card">
             <div class="player-card-grid">
               <div class="player-name"><input type="text" id="player2" placeholder="Player 2" class="form-control"></div>
-              <div class="player-position">Position: Midfielder</div>
-              <div class="player-stat">Assists: 7</div>
+              <div class="team-acronym">Team: </div>
+              <div class="region">Region: </div>
+              <div class="rating">Rating: </div>
+              <div class="ACS">ACS: </div>
+              <div class="ADR">ADR: </div>
+              <div class="KAST">KAST: </div>
+              <div class="agents">Most Played Agents: </div>
             </div>
           </div>
 
           <div class="player-card form-control mb-2" id="player3-card">
             <div class="player-card-grid">
               <div class="player-name"><input type="text" id="player3" placeholder="Player 3" class="form-control"></div>
-              <div class="player-position">Position: Midfielder</div>
-              <div class="player-stat">Assists: 7</div>
+              <div class="team-acronym">Team: </div>
+              <div class="region">Region: </div>
+              <div class="rating">Rating: </div>
+              <div class="ACS">ACS: </div>
+              <div class="ADR">ADR: </div>
+              <div class="KAST">KAST: </div>
+              <div class="agents">Most Played Agents: </div>
             </div>
           </div>
 
           <div class="player-card form-control mb-2" id="player4-card">
             <div class="player-card-grid">
               <div class="player-name"><input type="text" id="player4" placeholder="Player 4" class="form-control"></div>
-              <div class="player-position">Position: Midfielder</div>
-              <div class="player-stat">Assists: 7</div>
+              <div class="team-acronym">Team: </div>
+              <div class="region">Region: </div>
+              <div class="rating">Rating: </div>
+              <div class="ACS">ACS: </div>
+              <div class="ADR">ADR: </div>
+              <div class="KAST">KAST: </div>
+              <div class="agents">Most Played Agents: </div>
             </div>
           </div>
 
           <div class="player-card form-control mb-2" id="player5-card">
             <div class="player-card-grid">
               <div class="player-name"><input type="text" id="player5" placeholder="Player 5" class="form-control"></div>
-              <div class="player-position">Position: Midfielder</div>
-              <div class="player-stat">Assists: 7</div>
+              <div class="team-acronym">Team: </div>
+              <div class="region">Region: </div>
+              <div class="rating">Rating: </div>
+              <div class="ACS">ACS: </div>
+              <div class="ADR">ADR: </div>
+              <div class="KAST">KAST: </div>
+              <div class="agents">Most Played Agents: </div>
             </div>
           </div>
           <!-- Repeat for all players -->
@@ -109,6 +157,7 @@
       <div class="col-md-2"></div>
     </div>
   </div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <script type="module" src="{{ url_for('static', filename='script.js') }}"></script>
