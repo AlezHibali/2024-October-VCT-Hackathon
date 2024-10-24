@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Arsenal:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
@@ -37,20 +38,13 @@
       </div>
 
         <!-- Navigation Bar (fixed) -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <nav class="navbar navbar-expand-lg">
           <div class="container-fluid">
-            <span class="navbar-brand">Chat Topic</span>
+            <h2 class="roboto-bold"><span class="navbar-brand">Chat Topic</span></h2>
             <div class="navbar-nav ms-auto">
-              <div class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  User Profile
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#">Profile</a></li>
-                  <li><a class="dropdown-item" href="#">Settings</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Logout</a></li>
-                </ul>
+              <div class="nav-item">
+                <h3 class="roboto-bold"><a class="nav-link" href="https://github.com/AlezHibali/2024-October-VCT-Hackathon" role="button">
+                  <span class="navbar-brand">GitHub</span></a></h3>
               </div>
             </div>
           </div>
@@ -67,7 +61,7 @@
               </div>
               <!-- Input Box -->
               <div class="chat-input-container">
-                <input type="text" id="user-input" placeholder="Type your message..." class="form-control">
+                <input type="text" id="user-input" placeholder="&nbsp;&nbsp;Type your message..." class="form-control">
                 <button id="send-btn" class="btn btn-primary">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-send" viewBox="0 0 16 16">
                     <path d="M15.854.146a.5.5 0 0 0-.671-.057l-.073.057L1.5 6.793a.5.5 0 0 0 .058.885l.07.024 5.858 1.952 1.951 5.858a.5.5 0 0 0 .888.058l.025-.07 6.646-13.61a.5.5 0 0 0-.05-.538zM6.477 7.075l-3.733-1.244 9.986-4.912-6.253 6.156zM10.316 10.12l-1.244-3.733 6.156-6.253-4.912 9.986z"/>
@@ -79,82 +73,98 @@
 
       <!-- Player Cards (Column 10) -->
       <div class="col-md-1 player-cards">
-        <button class="expand-btn btn btn-secondary mb-2">⤢</button>
+        <button class="expand-btn btn btn-secondary mb-3 w-100">
+          <span class="material-icons expand">open_in_full</span>Expand
+        </button>
+        
         <div class="card-grid">
 
+
+          
           <div class="player-card form-control mb-2" id="player1-card">
             <div class="player-card-grid">
-              <div class="player-name"><input type="text" id="player1" placeholder="Player 1" class="form-control"></div>
-              <div class="team-acronym">Team: </div>
-              <div class="region">Region: </div>
-              <div class="rating">Rating: </div>
-              <div class="ACS">ACS: </div>
-              <div class="ADR">ADR: </div>
-              <div class="KAST">KAST: </div>
-              <div class="agents">Most Played Agents: </div>
+              <div class="card-body">
+                <div class="player-name"><h5 class="card-title"><input type="text" id="player1" placeholder="Player 1" class="form-control"></h5></div>
+                <p class="team-acronym">Team: </p>
+                <p class="region">Region: </p>
+                <p class="rating">Rating: </p>
+                <p class="ACS">ACS: </p>
+                <p class="ADR">ADR: </p>
+                <p class="KAST">KAST: </p>
+                <p class="agents">Most Played Agents: </p>
+              </div>
             </div>
           </div>
 
           <div class="player-card form-control mb-2" id="player2-card">
             <div class="player-card-grid">
-              <div class="player-name"><input type="text" id="player2" placeholder="Player 2" class="form-control"></div>
-              <div class="team-acronym">Team: </div>
-              <div class="region">Region: </div>
-              <div class="rating">Rating: </div>
-              <div class="ACS">ACS: </div>
-              <div class="ADR">ADR: </div>
-              <div class="KAST">KAST: </div>
-              <div class="agents">Most Played Agents: </div>
+                <div class="card-body">
+                  <div class="player-name"><h5 class="card-title"><input type="text" id="player2" placeholder="Player 2" class="form-control"></h5></div>
+                  <p class="team-acronym">Team: </p>
+                  <p class="region">Region: </p>
+                  <p class="rating">Rating: </p>
+                  <p class="ACS">ACS: </p>
+                  <p class="ADR">ADR: </p>
+                  <p class="KAST">KAST: </p>
+                  <p class="agents">Most Played Agents: </p>
+                </div>
+              
             </div>
           </div>
 
           <div class="player-card form-control mb-2" id="player3-card">
             <div class="player-card-grid">
-              <div class="player-name"><input type="text" id="player3" placeholder="Player 3" class="form-control"></div>
-              <div class="team-acronym">Team: </div>
-              <div class="region">Region: </div>
-              <div class="rating">Rating: </div>
-              <div class="ACS">ACS: </div>
-              <div class="ADR">ADR: </div>
-              <div class="KAST">KAST: </div>
-              <div class="agents">Most Played Agents: </div>
+              <div class="card-body">
+                <div class="player-name"><h5 class="card-title"><input type="text" id="player3" placeholder="Player 3" class="form-control"></h5></div>
+                <p class="team-acronym">Team: </p>
+                <p class="region">Region: </p>
+                <p class="rating">Rating: </p>
+                <p class="ACS">ACS: </p>
+                <p class="ADR">ADR: </p>
+                <p class="KAST">KAST: </p>
+                <p class="agents">Most Played Agents: </p>
+              </div>
             </div>
           </div>
 
           <div class="player-card form-control mb-2" id="player4-card">
             <div class="player-card-grid">
-              <div class="player-name"><input type="text" id="player4" placeholder="Player 4" class="form-control"></div>
-              <div class="team-acronym">Team: </div>
-              <div class="region">Region: </div>
-              <div class="rating">Rating: </div>
-              <div class="ACS">ACS: </div>
-              <div class="ADR">ADR: </div>
-              <div class="KAST">KAST: </div>
-              <div class="agents">Most Played Agents: </div>
+              <div class="card-body">
+                <div class="player-name"><h5 class="card-title"><input type="text" id="player4" placeholder="Player 4" class="form-control"></h5></div>
+                <p class="team-acronym">Team: </p>
+                <p class="region">Region: </p>
+                <p class="rating">Rating: </p>
+                <p class="ACS">ACS: </p>
+                <p class="ADR">ADR: </p>
+                <p class="KAST">KAST: </p>
+                <p class="agents">Most Played Agents: </p>
+              </div>
             </div>
           </div>
 
           <div class="player-card form-control mb-2" id="player5-card">
             <div class="player-card-grid">
-              <div class="player-name"><input type="text" id="player5" placeholder="Player 5" class="form-control"></div>
-              <div class="team-acronym">Team: </div>
-              <div class="region">Region: </div>
-              <div class="rating">Rating: </div>
-              <div class="ACS">ACS: </div>
-              <div class="ADR">ADR: </div>
-              <div class="KAST">KAST: </div>
-              <div class="agents">Most Played Agents: </div>
+              <div class="card-body">
+                <div class="player-name"><h5 class="card-title"><input type="text" id="player5" placeholder="Player 5" class="form-control" style="font-weight: bold; text-align: center;"></h5></div>
+                <p class="team-acronym">Team: </p>
+                <p class="region">Region: </p>
+                <p class="rating">Rating: </p>
+                <p class="ACS">ACS: </p>
+                <p class="ADR">ADR: </p>
+                <p class="KAST">KAST: </p>
+                <p class="agents">Most Played Agents: </p>
+              </div>
             </div>
           </div>
           <!-- Repeat for all players -->
+                   <!-- Eval Player Team -->
+        
         </div>
         <!-- Eval Player Team -->
-        <button class="eval-team-btn btn btn-success w-100">Evaluate</button>
+        <button class="eval-team-btn btn btn-success mt-2 w-100">Evaluate</button>
       </div>
 
 
-      <!-- Gap (Columns 11-12) -->
-      <div class="col-md-2"></div>
     </div>
   </div>
 </div>

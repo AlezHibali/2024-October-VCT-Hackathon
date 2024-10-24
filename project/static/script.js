@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const sendBtn = document.getElementById("send-btn");
   const playerCards = document.querySelector(".player-cards");
   const expandBtn = document.querySelector(".expand-btn");
+  const expandIcon = expandBtn.querySelector(".material-icons"); // Select the icon inside the expand button
   const evalTeamBtn = document.querySelector(".eval-team-btn");
   const refreshFunFactBtn = document.getElementById("refresh-fun-fact");
   const funFactDisplay = document.getElementById("fun-fact-display");
@@ -14,18 +15,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const chatColumn = chatContainer; // To handle chat column manipulation
 
   // Add event listener for expand functionality
+  // Add event listener for expand functionality
   expandBtn.addEventListener("click", () => {
     playerCards.classList.toggle("expanded"); // Toggle the expanded class
 
     if (playerCards.classList.contains("expanded")) {
       // If expanded, adjust the grid layout
       playerCards.classList.replace("col-md-1", "col-md-5");  // Expand player cards to 8-12
-  
       chatColumn.classList.replace("offset-md-4", "offset-md-2");  // Remove offset to attach chat to sidebar
+      expandIcon.textContent = "close_fullscreen";  // Change icon to close_fullscreen
+      expandBtn.innerHTML = '<span class="material-icons">close_fullscreen</span> Collapse';  // Change text to Collapse
     } else {
       // If collapsed, revert the grid layout
       playerCards.classList.replace("col-md-5", "col-md-1"); // Collapse player cards back to 1 column
       chatColumn.classList.replace("offset-md-2", "offset-md-4");  
+      expandIcon.textContent = "open_in_full"; // Change icon to open_in_full
+      expandBtn.innerHTML = '<span class="material-icons">open_in_full</span> Expand';
     }
   });
 
@@ -77,6 +82,32 @@ document.addEventListener("DOMContentLoaded", () => {
       appendMessage("user", message);
       userInput.value = ""; // Clear user input field
 
+      const response = await fetch("/api/wait_message", {
+          method: "GET",
+          headers: {
+              "Content-Type": "application/json",
+          },
+      });
+
+      if (!response.body) {
+          throw new Error("ReadableStream not supported.");
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let waitMessageData = "";
+      let done = false;
+
+      // You might want to append the initial message or a placeholder
+      appendMessage("bot", ""); // Placeholder for streaming message
+
+      while (!done) {
+          const { done: readerDone, value } = await reader.read();
+          done = readerDone;
+          waitMessageData += decoder.decode(value, { stream: !done });
+          updateLastBotMessage(waitMessageData);  // Continuously update the message
+      }
+
       try {
         const response = await fetch("/api/chat", {
           method: "POST",
@@ -108,12 +139,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         console.log("Stream ended");
-
+        console.log(resultData);
         // Set Player names in the input fields based on response
-        const teamMatch = resultData.match(/## \*Team Members\*: \*`(.+?)`\*/);
+        const teamMatchRaw = resultData.match(/\*Team Members\*: \*`([^`]+)`\*/);
+        const teamMatch = teamMatchRaw ? [...new Set(teamMatchRaw[0].match(/`([^`]+)`/g).map(name => name.replace(/`/g, '').trim()))] : [];
+
+        // Log the extracted team members for debugging
+        console.log("Extracted Team Members:", teamMatch);
         
-        if (teamMatch) {
-          const playerNames = teamMatch[1].split(',').map(name => name.trim());
+        if (teamMatch && teamMatch.length > 0) {
+          const playerNames = teamMatch[0].split(',').map(name => name.trim().replace(/^\[|\]$/g, ''));
           
           // Loop to populate player input fields
           playerNames.forEach((name, i) => {
@@ -122,16 +157,16 @@ document.addEventListener("DOMContentLoaded", () => {
   
               fetchPlayerData(name).then(player_stat => {
                 player_stat = player_stat["player_stat"];
-                console.log(player_stat);
+                // console.log(player_stat);
                 if (player_stat) {
                   // Display player info in the corresponding fields
-                  document.querySelector(`#player${i + 1}-card .team-acronym`).textContent = `Team: ${player_stat['Team Acronym'] || 'N/A'}`;
-                  document.querySelector(`#player${i + 1}-card .region`).textContent = `Region: ${player_stat.Region || 'N/A'}`;
-                  document.querySelector(`#player${i + 1}-card .rating`).textContent = `Rating: ${player_stat['Average Rating'] || 'N/A'}`;
-                  document.querySelector(`#player${i + 1}-card .ACS`).textContent = `ACS: ${player_stat['Average ACS'] || 'N/A'}`;
-                  document.querySelector(`#player${i + 1}-card .ADR`).textContent = `ADR: ${player_stat['Average ADR'] || 'N/A'}`;
-                  document.querySelector(`#player${i + 1}-card .KAST`).textContent = `KAST: ${player_stat['Average KAST'] || 'N/A'}`;
-                  document.querySelector(`#player${i + 1}-card .agents`).textContent = `Most Played Agents: ${player_stat['Agent Names'] ? player_stat['Agent Names'].join(', ') : 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .team-acronym`).innerHTML = `<strong>Team:</strong> ${player_stat['Team Acronym'] || 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .region`).innerHTML = `<strong>Region:</strong> ${player_stat.Region || 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .rating`).innerHTML = `<strong>Rating:</strong> ${player_stat['Average Rating'] || 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .ACS`).innerHTML = `<strong>ACS:</strong> ${player_stat['Average ACS'] || 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .ADR`).innerHTML = `<strong>ADR:</strong> ${player_stat['Average ADR'] || 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .KAST`).innerHTML = `<strong>KAST:</strong> ${player_stat['Average KAST'] || 'N/A'}`;
+                  document.querySelector(`#player${i + 1}-card .agents`).innerHTML = `<strong>Most Played Agents:</strong> ${player_stat['Agent Names'] ? player_stat['Agent Names'].join(', ') : 'N/A'}`;
                 } else {
                   console.log(`Player ${name} not found.`);
                 }
@@ -170,7 +205,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const content = document.createElement("div");
       content.className = "content";
       // content.textContent = text;
+
+      text = text.replace(/\\n/g, '\n\n');
       content.innerHTML = marked.parse(text) // Markdown
+
+      // const parsedMarkdown = marked.parse(text).replace(/<h3>/g, '<h7>').replace(/<\/h3>/g, '</h7>');
+      // content.innerHTML = parsedMarkdown;  
 
       messageElem.appendChild(avatar);
       messageElem.appendChild(content);
@@ -188,7 +228,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const lastBotMessage = chatBox.querySelector(".bot-message:last-child .content");
     if (lastBotMessage) {
       // lastBotMessage.innerHTML = text;  
+
+      text = text.replace(/\\n/g, '\n');
       lastBotMessage.innerHTML = marked.parse(text); // Markdown
+
+      // const parsedMarkdown = marked.parse(text).replace(/<h3>/g, '<h7>').replace(/<\/h3>/g, '</h7>');
+      // lastBotMessage.innerHTML = parsedMarkdown;  
+      
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   }

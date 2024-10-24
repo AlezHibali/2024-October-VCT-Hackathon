@@ -52,8 +52,15 @@ body {
   position: fixed;
   top: 0;
   left: 16.67%; /* Align with the end of the sidebar */
-  width: 83%; /* Remaining width of the screen */
+  width: 83.33%; /* Remaining width of the screen */
   z-index: 10;
+  background-color: white;
+}
+
+.roboto-regular {
+  font-family: "Roboto", serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .btn.btn-primary {
@@ -90,8 +97,10 @@ li.list-group-item {
   font-style: normal;
 }
 
+
+
 .content-container {
-  background-color: white;
+  background-color: #f5f3f3;
   height: 100vh;
 }
 
@@ -105,14 +114,16 @@ li.list-group-item {
   flex-direction: column;
   justify-content: space-between;
   border-radius: 8px;
+  border-style: solid;
+  border-color: #f5f3f3;
+  border-width: 1px;
   box-shadow: ;
+  background-color: white;
   padding: 10px;
+  margin-top: 9px;
   
 }
 
-.col-md-5 {
-  background-color: ;
-}
 
 .chat-box {
   flex: 1;
@@ -144,6 +155,9 @@ li.list-group-item {
   height: 40px;
   border-radius: 50%;
   background-color: #ddd;
+  background-image: url("/static/icons/chatbot_ava.png");
+  background-size: cover; /* Ensures the image covers the entire area */
+  background-position: center; 
   margin-right: 10px; /* Spacing between avatar and text */
   flex-shrink: 0; /* Ensure avatar does not shrink */
 }
@@ -157,14 +171,15 @@ li.list-group-item {
 
 /* User Message Content */
 .message.user-message .content {
-  background-color: #007bff;
-  color: white;
+  background-color: #fffbf5;
+  color: #222222;
   text-align: right;
   border-radius: 15px 15px 15px 15px; /* Round only the top left corner */
   max-width: 60%; /* Adjust width based on message length */
   min-width: 30px;
   word-wrap: break-word; /* Break long words if needed */
   white-space: pre-line; /* Allow line breaks */
+  text-align: left;
 }
 
 /* Bot Message Content */
@@ -196,9 +211,9 @@ li.list-group-item {
   flex: 1;
   padding: 10px;
   border-radius: 50px;
-  border: 1px solid #ddd;
   background-color: #fffbf5;
   padding-right: 50px;
+  border-color: #f5f3f3;
 }
 
 /* Send Button */
@@ -220,10 +235,15 @@ li.list-group-item {
   background-color: #bd3944;
 }
 
+
+.expand-btn {
+  margin-top: 10px;
+}
+
 /* Player Cards Container (in grid) */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(auto, 1fr));
   gap: 10px;
   padding: 0px;
   transition: all 0.3s ease;
@@ -243,26 +263,55 @@ li.list-group-item {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.card-grid input {
+  border: 1px solid hsl(0, 0%, 100%);
+  border-radius: 11px;
+  background-color: white;
+  text-align: center;
+  font-weight: bold;
+  color: #222222;
+}
+
+/* Apply bold style to placeholders in player cards */
+.player-card input::placeholder {
+  font-weight: bold;
+  color: #7b7b87; /* Optional: Set the placeholder color */
+  text-align: center;
+}
+
+.player-card p {
+  margin-left: 10px;
+}
+
+
 .player-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Expanded State (Use Flexbox for Single Row Layout) */
+/* Expanded State (Use Grid for Multi-row Layout) */
 .player-cards.expanded .card-grid {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around; /* Distribute cards evenly */
-  flex-wrap: nowrap; /* Prevent cards from wrapping to a new line */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+  gap: 20px; /* Space between cards */
   padding: 10px;
-  gap: 20px; /* Add some space between the cards */
-  height: 80vh;
-}
-/* For Expanded State (Make the player cards occupy more space) */
-.player-cards.expanded .card-grid {
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  height: auto; /* Allow the height to adjust based on content */
 }
 
+
+/* Adjusting player card sizes for the expanded state */
+.player-cards.expanded .player-card {
+  height: 36vh; /* Adjust the height of cards for consistency */
+  width: 100%; /* Cards take up full width of their grid space */
+}
+
+.player-cards.expanded .card-grid input {
+  border: 1px solid #fffbf5;
+  border-radius: 11px;
+  background-color: #fffbf5;
+  text-align: center;
+  font-weight: bold;
+}
 /* Default (Collapsed) State - Hide Position and Stats */
 .team-acronym, .region, .agents, .rating, .ACS, .ADR, .KAST {
   display: none;
@@ -279,13 +328,117 @@ li.list-group-item {
   display: block; /* Show the position and stats when expanded */
 }
 
-.col-md-1.player-cards button {
-  background-color: #007bff;
+/* Expand icon and button styles */
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 16px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  color: white;
+  padding-bottom: 5px;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
 }
+
+.col-md-1.player-cards .expand-btn {
+ background-color:#4b4e6d ;
+}
+
+.col-md-1.player-cards .expand-btn:hover {
+  background-color: #65688C; 
+  border-color: #65688C;/* Change background color on hover */
+}
+
+.expand-btn .material-icons {
+  margin-right: 5px; /* Space between icon and text */
+  vertical-align: middle; /* Vertically align the icon */
+}
+
+.player-cards.expanded .expand-btn {
+  background-color:#4b4e6d ;
+}
+
+.player-cards.expanded .expand-btn:hover {
+  background-color: #65688C; 
+  border-color: #65688C;/* Change background color on hover */
+}
+
+.col-md-1.player-cards .eval-team-btn {
+  background-color:#fd4556;
+  border-color:#fd4556 ;
+}
+
+.col-md-1.player-cards .eval-team-btn:hover {
+  background-color: #bd3944; 
+  border-color: #bd3944;/* Change background color on hover */
+}
+
+.player-cards.expanded .eval-team-btn {
+  background-color:#fd4556;
+  border-color:#fd4556 ;
+}
+
+.player-cards.expanded .eval-team-btn:hover {
+  background-color: #bd3944; 
+  border-color: #bd3944;/* Change background color on hover */
+
+}
+
 
 input.form-control:focus {
   outline: none; /* Remove default focus outline */
-  border-color: #cc00ff; /* Change border color to match the blue theme */
-  box-shadow: 0 0 5px rgba(247, 0, 255, 0.5); /* Add a blue glow shadow */
-  background-color: #f0f8ff; /* Optional: Change background color on focus */
+  border-color: #fd4556; /* Change border color to match the blue theme */
+  box-shadow: 0 0 3px rgba(253, 69, 86, 0.3); 
+  background-color: #fffbf5;
+}
+
+.content h1 {
+  font-size: 24px;
+}
+
+.content h2 {
+  font-size: 20px;
+}
+
+.content p {
+  font-size: 16px;
+}
+
+.content ul, .content li {
+  font-size: 16px;
+}
+
+.content ul {
+  margin-top: 0;    /* Adjust if needed */
+  margin-bottom: 0; /* Adjust if needed */
+  padding-left: 20px; /* Adjust indent if necessary */
+}
+
+.content li {
+  margin-bottom: 0px;  /* Reduce space between list items */
+  line-height: 1.2;    /* Adjust the line height if necessary */
+}
+
+.content h3 {
+  font-size: 18px;
+}
+
+.content h4, h5, h6 {
+  font-size: 16px;
 }

@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request, Response
 import time
 import waitress
-import re
 import random
 import boto3
 import os
 from project.utils import process_json, process_data
 import json
+from botocore.config import Config
 
 CURRENT_FUN_FACT_INDEX = 0
 
@@ -14,12 +14,26 @@ CURRENT_FUN_FACT_INDEX = 0
 aws_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
 aws_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
 
-# Initialize the Bedrock client
-bedrock_client = boto3.client("bedrock-agent-runtime",region_name="us-east-1", aws_access_key_id=aws_access_key_id, 
-      aws_secret_access_key=aws_secret_access_key)
+# Initialize AWS clients
 lambda_client = boto3.client('lambda',region_name="us-east-1", aws_access_key_id=aws_access_key_id, 
       aws_secret_access_key=aws_secret_access_key)
 
+# bedrock_client = boto3.client("bedrock-agent-runtime",region_name="us-east-1", aws_access_key_id=aws_access_key_id, 
+#       aws_secret_access_key=aws_secret_access_key)
+# agentId = "KP6HZVL1HR"
+# agentAliasId = "BMSKKW5PF7"
+
+my_config = Config(
+    region_name="sa-east-1",
+    read_timeout=180,  # Set the desired read timeout (in seconds)
+    connect_timeout=60  # You can also adjust the connect timeout if needed
+)
+
+bedrock_client = boto3.client("bedrock-agent-runtime", aws_access_key_id=aws_access_key_id, 
+      aws_secret_access_key=aws_secret_access_key, config=my_config)
+
+agentId = "ERJAR1TKQ1"
+agentAliasId = "X7DHXGLQGQ" # v5
 
 def get_lambda_response(player_id):
     # Set the Lambda function name and payload
@@ -72,28 +86,29 @@ def chat():
     def generate_response():
         if user_message:
             # EXAMPLE
-            file_path = "assets/text/dummy_markdown_response.txt"
-            with open(file_path, 'r') as file:
-                output = file.read()
+            # file_path = "assets/text/dummy_error.txt"
+            # with open(file_path, 'r') as file:
+            #     output = file.read()
 
             # Invoke the Bedrock agent
-            # response = bedrock_client.invoke_agent(
-            #     agentId='KP6HZVL1HR',      # Identifier for Agent
-            #     agentAliasId='BMSKKW5PF7', # Identifier for Agent Alias
-            #     sessionId='vct-agent-session',    # Identifier used for the current session
-            #     inputText=user_message
-            # )
+            response = bedrock_client.invoke_agent(
+                agentId=agentId,      # Identifier for Agent
+                agentAliasId=agentAliasId, # Identifier for Agent Alias
+                sessionId='vct-agent-session',    # Identifier used for the current session
+                inputText=user_message
+            )
 
-            # output = ""
-            # stream = response.get('completion')
-            # if stream:
-            #     for event in stream:
-            #         chunk = event.get('chunk')
-            #         if chunk:
-            #             output += chunk.get('bytes').decode()
+            output = ""
+            stream = response.get('completion')
+            if stream:
+                for event in stream:
+                    chunk = event.get('chunk')
+                    if chunk:
+                        output += chunk.get('bytes').decode()
 
-            # Replace newline characters with HTML <br> to preserve formatting
-            # output = output.replace("\n", "<br>")
+            # Handle error message
+            if output == "Sorry, I am unable to assist you with this request.":
+                output = "Sorry, I am unable to assist you with this request.\\n You are receiving this message possibly due to a glitch or excessive traces in our bot. Please try again!"
 
             for char in output:
                 yield f"{char}"
@@ -137,7 +152,24 @@ def player_data(player_id):
         return {"player_stat": output}
     else:
         return {"error": "Unable to retrieve player data."}
-    
+
+
+@app.route('/api/wait_message', methods=['GET'])
+def wait_messs():
+    def generate_response():
+        with open('assets/text/bot_wait.txt', 'r') as file:
+            wait_messages = file.readlines()
+
+        # Remove newline characters from each fact
+        wait_messages = [msg.strip() for msg in wait_messages]
+        output = random.choice(wait_messages)  # Select a random wait message
+
+        for char in output:
+            yield f"{char}"
+            time.sleep(0.05)  # Simulate typing effect
+
+    return Response(generate_response(), mimetype='text/event-stream')
+
 
 # python -m waitress --host=0.0.0.0 --port=5001 project.app:app
 if __name__ == "__main__":
