@@ -139,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         console.log("Stream ended");
-        console.log(resultData);
+
         // Set Player names in the input fields based on response
         const teamMatchRaw = resultData.match(/\*Team Members\*: \*`([^`]+)`\*/);
         const teamMatch = teamMatchRaw ? [...new Set(teamMatchRaw[0].match(/`([^`]+)`/g).map(name => name.replace(/`/g, '').trim()))] : [];

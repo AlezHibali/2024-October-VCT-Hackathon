@@ -7,6 +7,7 @@ import os
 from project.utils import process_json, process_data
 import json
 from botocore.config import Config
+import uuid
 
 CURRENT_FUN_FACT_INDEX = 0
 
@@ -91,10 +92,13 @@ def chat():
             #     output = file.read()
 
             # Invoke the Bedrock agent
+            session_id = str(uuid.uuid4())
+            print(f"Session ID: {session_id}")
+            
             response = bedrock_client.invoke_agent(
                 agentId=agentId,      # Identifier for Agent
                 agentAliasId=agentAliasId, # Identifier for Agent Alias
-                sessionId='vct-agent-session',    # Identifier used for the current session
+                sessionId=session_id,    # Identifier used for the current session
                 inputText=user_message
             )
 
