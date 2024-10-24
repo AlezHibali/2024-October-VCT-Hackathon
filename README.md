@@ -1,5 +1,7 @@
 # 2024-October-VCT-Hackathon
 
+![Logo](assets/img/logo.png)
+
 Welcome to the **2024-October-VCT-Hackathon** project repository! This project was developed during the October 2024 VCT (Valorant Champions Tour) hackathon. It focuses on building an innovative solution that interacts with Valorant-related data.
 
 ## Project Overview
@@ -17,12 +19,33 @@ You can access the live demo of the application here:
 
 **[2024-October-VCT-Hackathon Demo](http://98.83.233.139:5001/)**
 
+### Demo Video
+
+Watch the demo video to see the application in action:
+
+[![Demo Video](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+
+### Screenshot Demo
+
+Here are some screenshots of the application:
+
+![Screenshot Home](assets/img/home.png)
+![Screenshot Response](assets/img/response.png)
+![Screenshot Team Planner and Eval](assets/img/eval.png)
+
+## PDF Report
+
+You can view our project report here:
+
+[link](https://drive.google.com/file/d/18IluqYHskcRQp12X4Z4pNzl6kuzy7iNk/view?usp=sharing)
+
+
 ## Tech Stack
 
-- **Backend**: Flask (Python), AWS Bedrock
+- **Backend**: Python, AWS Bedrock, AWS Lambda, beautifulsoup
 - **Frontend**: HTML/CSS, JavaScript
 - **Database**: AWS S3
-- **Deployment**: AWS Codedeploy, CodePipeline, EC2 (Waitress as the WSGI server)
+- **Deployment**: AWS Codedeploy, CodePipeline, EC2, Flask (Waitress as the WSGI server)
 
 ## Setup Instructions
 
