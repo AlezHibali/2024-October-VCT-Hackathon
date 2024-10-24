@@ -43,7 +43,7 @@ You can view our project report here:
 ## Tech Stack
 
 - **Backend**: Python, AWS Bedrock, AWS Lambda, beautifulsoup
-- **Frontend**: HTML/CSS, JavaScript
+- **Frontend**: HTML/CSS, JavaScript, Bootstrap
 - **Database**: AWS S3
 - **Deployment**: AWS Codedeploy, CodePipeline, EC2, Flask (Waitress as the WSGI server)
 
